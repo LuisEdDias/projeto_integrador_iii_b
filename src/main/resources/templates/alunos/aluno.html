@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template.html}"
+>
+<head>
+    <title>Aluno</title>
+</head>
+<body>
+<div layout:fragment="conteudo">
+    <div class="row">
+        <h3 class="my-3 d-flex justify-content-center" th:text="${aluno.nome}"></h3>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <p class="mb-0">Matrícula</p>
+        </div>
+        <div class="col-sm-9">
+            <p class="text-muted mb-0" th:text="${aluno.matricula}"></p>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <p class="mb-0">CPF</p>
+        </div>
+        <div class="col-sm-9">
+            <p class="text-muted mb-0" th:text="${aluno.cpf}"></p>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <p class="mb-0">Data de nascimento</p>
+        </div>
+        <div class="col-sm-9">
+            <p class="text-muted mb-0" th:text="${aluno.dataNasc}"></p>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <p class="mb-0">Turma</p>
+        </div>
+        <div class="col-sm-9">
+            <p class="text-muted mb-0" th:text="${aluno.turma}"></p>
+        </div>
+    </div>
+    <hr>
+    <div class="d-flex justify-content-evenly mt-3">
+        <a class="btn btn-primary" role="button" th:href="@{'/aluno/' + ${aluno.matricula()} + '/atualizar'}">Editar</a>
+        <form th:action="@{'/deletar/' + ${aluno.matricula()}}" method="post">
+            <button type="submit" class="btn btn-danger ms-1">
+                <a>
+                    <input type="hidden" name="_method" value="delete">
+                    Deletar
+                </a>
+            </button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
