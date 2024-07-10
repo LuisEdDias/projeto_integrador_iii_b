@@ -22,11 +22,15 @@ public class AlunoService {
     }
 
     public AlunoDTO buscarAluno(String query, String type){
-        if (type.equals("matricula")) {
-            int matricula = Integer.parseInt(query);
-            return new AlunoDTO(turma.aluno(matricula));
-        } else {
-            return new AlunoDTO(turma.aluno(query));
+        try {
+            if (type.equals("matricula")) {
+                int matricula = Integer.parseInt(query);
+                return new AlunoDTO(turma.aluno(matricula));
+            } else {
+                return new AlunoDTO(turma.aluno(query));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar aluno");
         }
     }
 
