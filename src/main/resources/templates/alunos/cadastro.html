@@ -12,11 +12,11 @@
         <div layout:fragment="conteudo">
             <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2 text-center">Cadastrar Aluno</h3>
             <div class="d-flex justify-content-center">
-                <form class="container px-md-2" method="post" action="/">
+                <form class="container" method="post" action="/">
                     <div class="row justify-content-center">
                         <div class="col-lg-9 pb-4">
                             <div data-mdb-input-init class="form-outline">
-                                <input name="nome" type="text" id="nome" class="form-control"
+                                <input name="nome" type="text" id="nome" class="form-control fs-4"
                                        pattern="^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]{8,}" required/>
                                 <label class="form-label" for="nome">Nome</label>
                             </div>
@@ -24,7 +24,7 @@
 
                         <div class="col-lg-9 pb-4">
                             <div data-mdb-input-init class="form-outline">
-                                <input name="cpf" type="text" id="cpf" class="form-control"
+                                <input name="cpf" type="text" id="cpf" class="form-control fs-4"
                                        pattern="^\d{3}\.\d{3}\.\d{3}-\d{2}$" maxlength="14" required/>
                                 <label class="form-label" for="cpf">CPF</label>
                             </div>
@@ -35,37 +35,33 @@
                         <div class="d-lg-flex col-lg-9 justify-content-lg-between">
                             <div class="col-lg-5 pb-4">
                                 <div data-mdb-input-init class="form-outline">
-                                    <input name="dataNasc" type="date" class="form-control" id="dataNasc"
+                                    <input name="dataNasc" type="date" class="form-control fs-4" id="dataNasc"
                                            min="1900-01-01" th:attr="max=${data}" value="2000-01-01" required/>
                                     <label for="dataNasc" class="form-label">Data de nascimento</label>
                                 </div>
                             </div>
 
                             <div class="col-lg-5 pb-4">
-                                <div class="input-group bg-secondary mb-3">
-                                    <div class="input-group-prepend">
-                                        <label class="input-group-text" for="selectTurma">Turma</label>
-                                    </div>
+                                <label class="form-label fs-4 me-1" for="selectTurma">Turma</label>
 
-                                    <select class="custom-select" name="turma" id="selectTurma">
-                                        <option disabled selected>Selecionar</option>
+                                <select class="custom-select h-100" name="turma" id="selectTurma">
+                                    <option disabled selected>Selecionar</option>
 
-                                        <option th:each="turma : ${turmas}"
-                                                th:value="${turma}"
-                                                th:text="${turma}"></option>
-                                    </select>
-                                </div>
+                                    <option th:each="turma : ${turmas}"
+                                            th:value="${turma}"
+                                            th:text="${turma}"></option>
+                                </select>
                             </div>
                         </div>
                     </div>
 
                     <div class="row justify-content-center">
-                        <div class="d-flex col-lg-8 justify-content-around">
-                            <button type="submit" class="btn btn-success col-5 col-sm-3 col-md-4">
+                        <div class="d-flex col-lg-8 column-gap-1 justify-content-around">
+                            <button type="submit" class="btn btn-success col-6 col-sm-3 col-md-4">
                                 Cadastrar
                             </button>
 
-                            <button type="button" class="btn btn-danger col-5 col-sm-3 col-md-4">
+                            <button type="button" class="btn btn-danger col-6 col-sm-3 col-md-4">
                                 <a href="/" class="text-white">Cancelar</a>
                             </button>
                         </div>
