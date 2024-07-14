@@ -1,13 +1,16 @@
 package com.luis.piiiib.controllers;
 
-import com.luis.piiiib.dto.AlunoCadastroDTO;
-import com.luis.piiiib.dto.AlunoDTO;
-import com.luis.piiiib.dto.AlunoAtualizarDTO;
+import com.luis.piiiib.dto.*;
 import com.luis.piiiib.entities.Turma;
 import com.luis.piiiib.services.AlunoService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Controller
 @RequestMapping("/")
@@ -27,7 +30,7 @@ public class AlunoController {
             model.addAttribute("aluno", aluno);
             return "alunos/aluno";
         } catch (Exception e) {
-            return retornarIndexComErro(model, e.getMessage());
+            return indexViewComErro(model, e.getMessage());
         }
     }
 
@@ -38,25 +41,32 @@ public class AlunoController {
             model.addAttribute("aluno", aluno);
             return "alunos/aluno";
         } catch (Exception e) {
-            return retornarIndexComErro(model, e.getMessage());
+            return indexViewComErro(model, e.getMessage());
         }
     }
 
     @GetMapping("/cadastro")
     public String cadastrarView(Model model){
+        String dataHoje = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        model.addAttribute("data", dataHoje);
         model.addAttribute("turmas", Turma.getNomes());
         return "alunos/cadastro";
     }
 
     @PostMapping
-    public String cadastrar(Model model, AlunoCadastroDTO alunoCadastroDTO){
+    public String cadastrar(Model model, @Valid AlunoCadastroDTO alunoCadastroDTO, BindingResult result){
+        if(result.hasErrors()){
+            String error = "Dados de cadastro inválidos!";
+            return indexViewComErro(model, error);
+        }
+
         try {
             AlunoDTO aluno = alunoService.novoAluno(alunoCadastroDTO);
             model.addAttribute("success", "Aluno cadastrado com sucesso!");
             model.addAttribute("aluno", aluno);
             return "alunos/aluno";
         } catch (Exception e) {
-            return retornarIndexComErro(model, e.getMessage());
+            return indexViewComErro(model, e.getMessage());
         }
     }
 
@@ -66,21 +76,28 @@ public class AlunoController {
             AlunoDTO aluno = alunoService.aluno(matricula);
             model.addAttribute("aluno", aluno);
             model.addAttribute("turmas", Turma.getNomes());
+            String dataHoje = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            model.addAttribute("data", dataHoje);
             return "alunos/atualizar";
         } catch (Exception e) {
-            return retornarIndexComErro(model, e.getMessage());
+            return indexViewComErro(model, e.getMessage());
         }
     }
 
     @PutMapping("atualizar/{matricula}")
-    public String atualizar(Model model, @PathVariable int matricula, AlunoAtualizarDTO alunoAtualizarDTO){
+    public String atualizar(Model model, @PathVariable int matricula, @Valid AlunoAtualizarDTO alunoAtualizarDTO, BindingResult result){
+        if(result.hasErrors()){
+            String error = "Dados de cadastro inválidos!";
+            return indexViewComErro(model, error);
+        }
+
         try {
             AlunoDTO aluno = alunoService.atualizarAluno(matricula, alunoAtualizarDTO);
             model.addAttribute("success", "Os dados do aluno " + aluno.nome() + " foram atualizados com sucesso!");
             model.addAttribute("aluno", aluno);
             return "alunos/aluno";
         } catch (Exception e) {
-            return retornarIndexComErro(model, e.getMessage());
+            return indexViewComErro(model, e.getMessage());
         }
     }
 
@@ -92,11 +109,11 @@ public class AlunoController {
             model.addAttribute("alunos", alunoService.buscarTodos());
             return "alunos/index";
         } catch (Exception e) {
-            return retornarIndexComErro(model, e.getMessage());
+            return indexViewComErro(model, e.getMessage());
         }
     }
 
-    private String retornarIndexComErro(Model model, String erro){
+    private String indexViewComErro(Model model, String erro){
         model.addAttribute("error", erro);
         model.addAttribute("alunos", alunoService.buscarTodos());
         return "alunos/index";

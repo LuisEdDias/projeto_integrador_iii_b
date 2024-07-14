@@ -22,16 +22,17 @@ public class AlunoService {
     }
 
     public AlunoDTO buscarAluno(String query, String type){
-        try {
             if (type.equals("matricula")) {
-                int matricula = Integer.parseInt(query);
+                int matricula;
+                try {
+                    matricula = Integer.parseInt(query);
+                } catch (NumberFormatException e) {
+                    throw new NumberFormatException("Matrícula inválida!");
+                }
                 return new AlunoDTO(turma.aluno(matricula));
             } else {
                 return new AlunoDTO(turma.aluno(query));
             }
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao buscar aluno");
-        }
     }
 
     public AlunoDTO novoAluno(AlunoCadastroDTO aluno){

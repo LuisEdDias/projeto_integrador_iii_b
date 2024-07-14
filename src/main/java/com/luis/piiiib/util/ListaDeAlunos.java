@@ -31,8 +31,9 @@ public class ListaDeAlunos {
 
     public Aluno aluno(int matricula) {
         Optional<Aluno> aluno = Optional.ofNullable(alunos.get(matricula));
-        return aluno
-                .orElseThrow(() -> new NoSuchElementException("Aluno não encontrado!"));
+
+        aluno.orElseThrow(() -> new NoSuchElementException("Aluno não encontrado!"));
+        return aluno.get();
     }
 
     public List<Aluno> buscarTodos() {

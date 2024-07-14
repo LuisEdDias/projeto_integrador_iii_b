@@ -4,47 +4,50 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{template.html}"
 >
-<head>
-    <title>Alunos</title>
-</head>
-<body>
-    <div layout:fragment="conteudo">
-        <table class="table align-middle mb-0 bg-white" th:hidden="${alunos.isEmpty()}">
-            <thead class="bg-light">
-            <tr>
-                <th>Nome</th>
-                <th>Turma</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="aluno : ${alunos}">
-                <td>
-                    <div class="d-flex align-items-center">
-                        <div class="ms-3">
-                            <p class="fw-bold mb-1" th:text="${aluno.nome()}"></p>
+    <head>
+        <title>Alunos</title>
+    </head>
+
+    <body>
+        <div layout:fragment="conteudo">
+            <table class="table align-middle mb-0 bg-white" th:hidden="${alunos == null || alunos.isEmpty()}">
+                <thead class="bg-light">
+                <tr>
+                    <th>Nome</th>
+                    <th>Turma</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="aluno : ${alunos}">
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="ms-3">
+                                <p class="fw-bold mb-1" th:text="${aluno.nome()}"></p>
+                            </div>
                         </div>
+                    </td>
+                    <td>
+                        <p class="fw-normal mb-1" th:text="${aluno.turma()}"></p>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-link btn-sm btn-rounded">
+                            <a th:href="@{'/aluno/' + ${aluno.matricula()}}">Ver</a>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="container">
+                <div class="flex-column" th:hidden="${!alunos.isEmpty()}">
+                    <h3 class="row fs-5 py-4 justify-content-center" >Não existem alunos cadastrados!</h3>
+                    <div class="row justify-content-center">
+                        <button type="button" class="btn btn-success btn-lg col-8 col-md-6 col-sm-3">
+                            <a href="/cadastro" class="text-white">Cadastrar</a>
+                        </button>
                     </div>
-                </td>
-                <td>
-                    <p class="fw-normal mb-1" th:text="${aluno.turma()}"></p>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-link btn-sm btn-rounded">
-                        <a th:href="@{'/aluno/' + ${aluno.matricula()}}">Ver</a>
-                    </button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <div class="container">
-            <div class="flex-column" th:hidden="${!alunos.isEmpty()}">
-                <h3 class="row py-4 justify-content-center" >Não existem alunos cadastrados!</h3>
-                <div class="row justify-content-center">
-                    <button type="button" class="btn btn-success col-3"><a href="/cadastro" class="text-white">Cadastrar</a></button>
                 </div>
             </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>

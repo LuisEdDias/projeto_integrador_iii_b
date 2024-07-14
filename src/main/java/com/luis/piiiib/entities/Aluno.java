@@ -11,11 +11,10 @@ public class Aluno {
     private Turma turma;
     private final int matricula;
 
-
     public Aluno(AlunoCadastroDTO alunoCadastroDTO){
         this.nome = alunoCadastroDTO.nome();
         this.cpf = alunoCadastroDTO.cpf();
-        this.dataNasc = alunoCadastroDTO.dataNasc();
+        this.dataNasc = formatarDataNasc(alunoCadastroDTO.dataNasc());
         this.turma = Turma.getTurma(alunoCadastroDTO.turma());
         this.matricula = proximaMatricula;
         proximaMatricula++;
@@ -23,7 +22,7 @@ public class Aluno {
 
     public void atualizarDados(AlunoAtualizarDTO alunoAtualizarDTO){
         this.nome = alunoAtualizarDTO.nome();
-        this.dataNasc = alunoAtualizarDTO.dataNasc();
+        this.dataNasc = formatarDataNasc(alunoAtualizarDTO.dataNasc());
         this.turma = Turma.getTurma(alunoAtualizarDTO.turma());
     }
 
@@ -45,5 +44,12 @@ public class Aluno {
 
     public int getMatricula() {
         return matricula;
+    }
+
+    private String formatarDataNasc(String dataNasc){
+        return String.format("%s/%s/%s",
+                dataNasc.substring(8),
+                dataNasc.substring(5, 7),
+                dataNasc.substring(0, 4));
     }
 }
