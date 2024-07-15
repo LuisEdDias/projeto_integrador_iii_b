@@ -144,15 +144,24 @@
                 inCpf.addEventListener('input', () => {
                     inCpf.value = cpfMask(inCpf.value);
                 });
+            }
 
-                function cpfMask(value) {
-                    if (!value) return ""
-                    value = value.replace(/\D/g,'')
-                    value = value.replace(/(\d{3})(\d)/,"$1.$2")
-                    value = value.replace(/(\d{3})(\d{3})/,"$1.$2")
-                    value = value.replace(/(\d)(\d{2})$/,"$1-$2")
-                    return value
-                }
+            function cpfMask(value) {
+                if (!value) return ""
+                value = value.replace(/\D/g,'')
+                value = value.replace(/(\d{3})(\d)/,"$1.$2")
+                value = value.replace(/(\d{3})(\d{3})/,"$1.$2")
+                value = value.replace(/(\d)(\d{2})$/,"$1-$2")
+                return value
+            }
+
+            const inDataNasc = document.getElementById('dataNasc');
+
+            function dataNascValue() {
+                const dataValue = inDataNasc.dataset.nasc;
+                const data = dataValue.substring(6) + "-" + dataValue.substring(3,5) + "-" + dataValue.substring(0, 2);
+                console.log(data);
+                inDataNasc.value = data;
             }
         </script>
 
