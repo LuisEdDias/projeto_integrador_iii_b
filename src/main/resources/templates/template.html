@@ -20,7 +20,7 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.min.css" rel="stylesheet"/>
     </head>
 
-    <body class="bg-info d-flex flex-column min-vh-100">
+    <body class="bg-info d-flex flex-column min-vh-100" onload="serachMask()">
         <header class="container-fluid row m-0 p-0 sticky-top">
             <nav class="navbar navbar-expand-md navbar-light p-0 bg-white">
                 <div class="container-fluid p-0">
@@ -43,20 +43,24 @@
                                 <div class="nav-item d-flex pb-1 pb-md-0">
                                     <div class="form-check col-6">
                                         <input class="form-check-input" type="radio" name="type" value="matricula"
-                                               id="radioMatricula" checked/>
-                                        <label class="form-check-label fs-5" for="radioMatricula"> Matrícula </label>
+                                               id="radioMatricula" onclick="serachMask('matricula')" checked/>
+                                        <label class="form-check-label fs-5" for="radioMatricula">
+                                            Matrícula
+                                        </label>
                                     </div>
 
                                     <div class="form-check col-6">
                                         <input class="form-check-input" type="radio" name="type" value="cpf"
-                                               id="radioCpf"/>
-                                        <label class="form-check-label fs-5" for="radioCpf"> CPF </label>
+                                               id="radioCpf" onclick="serachMask('cpf')"/>
+                                        <label class="form-check-label fs-5" for="radioCpf">
+                                            CPF
+                                        </label>
                                     </div>
                                 </div>
 
                                 <div class="col d-flex">
-                                    <input type="search" name="query" class="form-control"
-                                           placeholder="Somente números" aria-label="Search"/>
+                                    <input type="text" id="search" name="query" class="form-control"
+                                           placeholder="Somente números" aria-label="Search" maxlength="14"/>
 
                                     <button data-mdb-ripple-init class="btn btn-outline-primary mx-1"
                                             type="submit" data-mdb-ripple-color="dark">Buscar</button>
@@ -139,6 +143,7 @@
 
         <script>
             const inCpf = document.getElementById('cpf');
+            const inSearch = document.getElementById('search');
 
             if (inCpf) {
                 inCpf.addEventListener('input', () => {
@@ -146,13 +151,27 @@
                 });
             }
 
+            function serachMask(value) {
+                inSearch.value = "";
+
+                if (value === "cpf") {
+                    inSearch.addEventListener('input', () => {
+                        inSearch.value = cpfMask(inSearch.value);
+                    });
+                } else {
+                    inSearch.addEventListener('input', () => {
+                        inSearch.value = inSearch.value.replace(/\D/g,'');
+                    });
+                }
+            }
+
             function cpfMask(value) {
                 if (!value) return ""
-                value = value.replace(/\D/g,'')
-                value = value.replace(/(\d{3})(\d)/,"$1.$2")
-                value = value.replace(/(\d{3})(\d{3})/,"$1.$2")
-                value = value.replace(/(\d)(\d{2})$/,"$1-$2")
-                return value
+                value = value.replace(/\D/g,'');
+                value = value.replace(/(\d{3})(\d)/,"$1.$2");
+                value = value.replace(/(\d{3})(\d{3})/,"$1.$2");
+                value = value.replace(/(\d)(\d{2})$/,"$1-$2");
+                return value;
             }
 
             const inDataNasc = document.getElementById('dataNasc');
