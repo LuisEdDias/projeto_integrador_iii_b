@@ -4,62 +4,106 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{template.html}"
 >
-<head>
-    <title>Aluno</title>
-</head>
-<body>
-<div layout:fragment="conteudo">
-    <div class="row">
-        <h3 class="my-3 d-flex justify-content-center" th:text="${aluno.nome}"></h3>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-sm-3">
-            <p class="mb-0">Matrícula</p>
-        </div>
-        <div class="col-sm-9">
-            <p class="text-muted mb-0" th:text="${aluno.matricula}"></p>
-        </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-sm-3">
-            <p class="mb-0">CPF</p>
-        </div>
-        <div class="col-sm-9">
-            <p class="text-muted mb-0" th:text="${aluno.cpf}"></p>
-        </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-sm-3">
-            <p class="mb-0">Data de nascimento</p>
-        </div>
-        <div class="col-sm-9">
-            <p class="text-muted mb-0" th:text="${aluno.dataNasc}"></p>
-        </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-sm-3">
-            <p class="mb-0">Turma</p>
-        </div>
-        <div class="col-sm-9">
-            <p class="text-muted mb-0" th:text="${aluno.turma}"></p>
-        </div>
-    </div>
-    <hr>
-    <div class="d-flex justify-content-evenly mt-3">
-        <a class="btn btn-primary" role="button" th:href="@{'/aluno/' + ${aluno.matricula()} + '/atualizar'}">Editar</a>
-        <form th:action="@{'/deletar/' + ${aluno.matricula()}}" method="post">
-            <button type="submit" class="btn btn-danger ms-1">
-                <a>
-                    <input type="hidden" name="_method" value="delete">
-                    Deletar
+    <head>
+        <title>Aluno</title>
+    </head>
+
+    <body>
+        <div layout:fragment="conteudo">
+            <div class="row">
+                <h3 class="my-3 d-flex justify-content-center" th:text="${aluno.nome}"></h3>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">Matrícula</p>
+                </div>
+                <div class="col-sm-9">
+                    <p class="text-muted mb-0" th:text="${aluno.matricula}"></p>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">CPF</p>
+                </div>
+
+                <div class="col-sm-9">
+                    <p class="text-muted mb-0" th:text="${aluno.cpf}"></p>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">Data de nascimento</p>
+                </div>
+
+                <div class="col-sm-9">
+                    <p class="text-muted mb-0" th:text="${aluno.dataNasc}"></p>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">Turma</p>
+                </div>
+
+                <div class="col-sm-9">
+                    <p class="text-muted mb-0" th:text="${aluno.turma}"></p>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="d-flex justify-content-evenly mt-3">
+                <a class="btn btn-primary" role="button" th:href="@{'/aluno/' + ${aluno.matricula()} + '/atualizar'}">
+                    Editar
                 </a>
-            </button>
-        </form>
-    </div>
-</div>
-</body>
+
+                <button type="button" class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#modal">
+                    Deletar
+                </button>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="modalLabel">Apagar registro</h1>
+
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body text-center">
+                            <p>Tem certeza que deseja deletar os dados do aluno</p>
+
+                            <p th:text="${aluno.nome}" class="fs-2 fw-bold"></p>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+                            <form th:action="@{'/deletar/' + ${aluno.matricula()}}" method="post">
+                                <button type="submit" class="btn btn-danger ms-1">
+                                    <a>
+                                        <input type="hidden" name="_method" value="delete">
+                                        Deletar
+                                    </a>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
